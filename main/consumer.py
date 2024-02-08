@@ -4,7 +4,7 @@ import json
 from main import Product, db
 
 params = pika.URLParameters(
-'amqps://wavyywnp:NwTeeH1bsUyOPHhGNPA9CARMLN14ksd5@lionfish.rmq.cloudamqp.com/wavyywnp'
+'amqps://ognssvyy:XSJ7w3QbVynhHveFa__-dIii--nzQYjI@lionfish.rmq.cloudamqp.com/ognssvyy'
 )
 
 connection = pika.BlockingConnection(params)
@@ -32,9 +32,12 @@ def callback(ch, method, properties, body):
         print('Product Updated')
     elif properties.content_type == 'product_deleted':
         product = Product.query.get(data)
-        db.session.delete(product)
-        db.session.commit()
-        print('Product Deleted')
+        if product != None:
+            db.session.delete(product)
+            db.session.commit()
+            print('Product Deleted')
+        else:
+            print('Product not found')
 
 channel.basic_consume(queue='main', on_message_callback=callback, auto_ack=True)
 
