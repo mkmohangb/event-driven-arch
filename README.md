@@ -2,6 +2,7 @@
 
 
 
+- From ```main``` directory,
 ```
   docker-compose db exec sh
   python manager.py db init
